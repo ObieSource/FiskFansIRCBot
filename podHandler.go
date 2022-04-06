@@ -38,7 +38,11 @@ func PodHandler(argv []string) string {
 		if err != nil {
 			return fmt.Sprintf("Returned error %+v", err)
 		}
-		return fmt.Sprintf("stoplist href: %s\n", href)
+		stoplist, err := GetStoplist(href)
+		if err != nil {
+			return fmt.Sprintf("Returned error %+v", err)
+		}
+		return stoplist
 	default:
 		return PodNotOSQ(argv[0])
 	}
