@@ -29,6 +29,12 @@ func PodHandler(argv []string) string {
 	switch strings.ToLower(argv[0]) {
 	case "q":
 		return strings.Join(PodKeywordSearch(podArgs), "\n")
+	case "o":
+		id, err := strconv.Atoi(podArgs[0])
+		if err != nil {
+			return fmt.Sprintf("Returned error %+v", err)
+		}
+		return PodOrganHandler(id)
 	case "s":
 		id, err := strconv.Atoi(podArgs[0])
 		if err != nil {
