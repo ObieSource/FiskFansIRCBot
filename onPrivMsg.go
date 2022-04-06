@@ -11,8 +11,12 @@ func OnPrivMsg(e ircmsg.Message) {
 		return
 	}
 	text := e.Params[1]
-	output := UserCommandHandler(text)
-	for _, line := range strings.Split(output, "\n") {
-		irc.Privmsg(e.Params[0], ircutils.SanitizeText(line, 384))
-	}
+	go func() {
+		output := UserCommandHandler(text)
+		for _, line := range strings.Split(output, "\n") {
+			if strings.TrimSpace(line) != "" {
+				irc.Privmsg(e.Params[0], ircutils.SanitizeText(line, 384))
+			}
+		}
+	}()
 }
