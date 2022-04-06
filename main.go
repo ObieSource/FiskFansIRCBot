@@ -1,12 +1,33 @@
 package main
 
 import (
+	"crypto/tls"
+	"github.com/ergochat/irc-go/ircevent"
 	"github.com/ergochat/irc-go/ircmsg"
 	"log"
+	"os"
 	"strings"
 )
 
+func env(e string) string {
+	out, ok := os.LookupEnv(e)
+	if !ok {
+		log.Fatalf("Environment variable %s not found, exiting.\n", e)
+	}
+	return out
+}
+
+var irc ircevent.Connection
+
 func main() {
+	irc = ircevent.Connection{
+		Server:      env("IRCSERVER"),
+		Nick:        env("IRCNICK"),
+		Debug:       true,
+		UseTLS:      true,
+		TLSConfig:   &tls.Config{},
+		RequestCaps: []string{},
+	}
 	irc.AddConnectCallback(func(e ircmsg.Message) {
 		// attempt to set the BOT mode on ourself:
 		if botMode := irc.ISupport()["BOT"]; botMode != "" {
