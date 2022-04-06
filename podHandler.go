@@ -2,13 +2,22 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
+)
+
+const (
+	PodHostname = "https://pipeorgandatabase.org"
 )
 
 var PodIncorrectArgs string = "Incorrect number of parameters.\nSyntax: .pod <o/s> <id> / .pod q <key1>..."
 
 func PodNotOSQ(spec string) string {
 	return fmt.Sprintf("Unknown specifier \"%s\". Syntax .pod <o/s/q> ...", spec)
+}
+
+func PodGetOrganUrl(id int) string {
+	return fmt.Sprintf("%s/organ/%d", PodHostname, id)
 }
 
 func PodHandler(argv []string) string {
@@ -20,6 +29,16 @@ func PodHandler(argv []string) string {
 	switch strings.ToLower(argv[0]) {
 	case "q":
 		return strings.Join(PodKeywordSearch(podArgs), "\n")
+	case "s":
+		id, err := strconv.Atoi(podArgs[0])
+		if err != nil {
+			return fmt.Sprintf("Returned error %+v", err)
+		}
+		href, err := podGetStoplistIndexFromOrganId(id)
+		if err != nil {
+			return fmt.Sprintf("Returned error %+v", err)
+		}
+		return fmt.Sprintf("stoplist href: %s\n", href)
 	default:
 		return PodNotOSQ(argv[0])
 	}
