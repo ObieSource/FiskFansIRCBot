@@ -2,10 +2,13 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 
+	"github.com/chromedp/chromedp"
 	"golang.org/x/net/html"
 )
 
@@ -45,7 +48,7 @@ func GetStoplist(href string) (stoplist string, err error) {
 
 		switch tt {
 		case html.ErrorToken:
-			return "", ErrorUnexpectedErrorToken
+			return GetStoplistJS(href)
 
 		case html.StartTagToken:
 			/*
@@ -66,4 +69,26 @@ func GetStoplist(href string) (stoplist string, err error) {
 			return data, nil
 		}
 	}
+}
+
+func GetStoplistJS(href string) (string, error) {
+	/*
+		Derived from example at https://github.com/chromedp/examples/blob/master/eval/main.go
+	*/
+
+	ctx, cancel := chromedp.NewContext(context.Background())
+	defer cancel()
+
+	// run task list
+	var res []byte
+	err := chromedp.Run(ctx,
+		chromedp.Navigate(href),
+		// chromedp.Evaluate(`document.querySelector("div#app.mr-1")`, &res),
+		chromedp.Evaluate(`Application.data()`, &res),
+	)
+	if err != nil {
+		return "", err
+	}
+	fmt.Println("res:", res, string(res))
+	return string(res), err
 }
