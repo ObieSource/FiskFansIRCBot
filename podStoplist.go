@@ -95,6 +95,7 @@ func GetStoplistJS(href string) (string, error) {
 	if err != nil {
 		return "", nil
 	}
+	StoplistFromHrefCache[href] = parsed
 	return parsed, nil
 }
 

@@ -23,10 +23,11 @@ func main() {
 	irc = ircevent.Connection{
 		Server:      env("IRCSERVER"),
 		Nick:        env("IRCNICK"),
-		Debug:       false,
+		Debug:       true,
 		UseTLS:      true,
 		TLSConfig:   &tls.Config{},
 		RequestCaps: []string{},
+		RealName:    "FiskFansIRCBot",
 	}
 	irc.AddConnectCallback(func(e ircmsg.Message) {
 		// attempt to set the BOT mode on ourself:
@@ -43,6 +44,11 @@ func main() {
 	err := irc.Connect()
 	if err != nil {
 		log.Fatal(err)
+	}
+	if val, ok := os.LookupEnv("IRCCOMM"); ok {
+		if err := irc.SendRaw(val); err != nil {
+			log.Fatal(err)
+		}
 	}
 	irc.Loop()
 
