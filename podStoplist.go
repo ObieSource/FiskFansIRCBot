@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/chromedp/chromedp"
 	"golang.org/x/net/html"
@@ -124,6 +125,23 @@ func StoplistParseJS(js []byte) (string, error) {
 		Write to buf the stoplist
 	*/
 	buf := new(bytes.Buffer)
+
+	for i, div := range stoplist.Divisions {
+		fmt.Fprintf(buf, "--- %d. %s ---\n", i+1, strings.ToUpper(div.Name))
+		fmt.Fprintln(buf, div.Notes)
+		fmt.Fprintln(buf)
+
+		for j, stop := range div.Stops {
+			fmt.Fprintf(buf, "% 2d %6s %s", j, stop.Length, stop.Name)
+			if stop.Details != "" {
+				fmt.Fprintf(buf, ", %s", stop.Details)
+			}
+			fmt.Fprintln(buf)
+		}
+
+	}
+	fmt.Fprintln(buf)
+	fmt.Fprintln(buf, stoplist.Notes)
 
 	return buf.String(), nil
 }
