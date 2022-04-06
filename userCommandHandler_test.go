@@ -17,6 +17,10 @@ var BasicTestCases map[string]string = map[string]string{
 	".pod q":        PodIncorrectArgs,
 	".pod g 69":     PodNotOSQ("g"),
 	".pod hello 23": PodNotOSQ("hello"),
+	".fandom":       FandomNoArgs,
+	".fandom hello": FandomIntError,
+	".fandom 69420": FandomIntError,
+	".fandom 23 45": FandomTooManyArgs,
 }
 
 func TestUserCommandHandler(t *testing.T) {
