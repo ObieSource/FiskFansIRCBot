@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -84,11 +85,45 @@ func GetStoplistJS(href string) (string, error) {
 	err := chromedp.Run(ctx,
 		chromedp.Navigate(href),
 		// chromedp.Evaluate(`document.querySelector("div#app.mr-1")`, &res),
-		chromedp.Evaluate(`Application.data()`, &res),
+		chromedp.Evaluate(`Application.data().stoplistData`, &res),
 	)
 	if err != nil {
 		return "", err
 	}
-	fmt.Println("res:", res, string(res))
-	return string(res), err
+	parsed, err := StoplistParseJS(res)
+	if err != nil {
+		return "", nil
+	}
+	return parsed, nil
+}
+
+type StoplistStr struct {
+	Divisions []DivisionStr
+	Notes     string
+}
+
+type DivisionStr struct {
+	Name  string
+	Notes string
+	Stops []StopStr
+}
+
+type StopStr struct {
+	Length  string
+	Name    string
+	Details string
+}
+
+func StoplistParseJS(js []byte) (string, error) {
+	stoplist := new(StoplistStr)
+
+	if err := json.Unmarshal(js, stoplist); err != nil {
+		return "", err
+	}
+	/*
+		Write to buf the stoplist
+	*/
+	buf := new(bytes.Buffer)
+
+	return buf.String(), nil
 }
