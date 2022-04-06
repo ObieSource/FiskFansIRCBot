@@ -25,9 +25,13 @@ func UserCommandHandler(text string) string {
 
 	argv := allargv[1:]
 
-	for _, c := range Commands {
-		if strings.ToLower(c.Command) == strings.ToLower(command) {
-			return c.Handler(argv)
+	if strings.ToLower(command) == "help" {
+		return HelpHandler(argv)
+	} else {
+		for _, c := range Commands {
+			if strings.ToLower(c.Command) == strings.ToLower(command) {
+				return c.Handler(argv)
+			}
 		}
 	}
 

@@ -8,7 +8,7 @@ type Command struct {
 }
 
 var Commands []Command = []Command{
-	{"ping", "", "send a ping to the bot", func(argv []string) string {
+	{"ping", "", "Send a ping to the bot", func(argv []string) string {
 		return "Pong!"
 	}},
 }
