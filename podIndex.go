@@ -11,6 +11,11 @@ import (
 //go:embed "podIndex.csv"
 var podIndex string
 
+func PodKeywordSearchHandler(argv []string) string {
+	return strings.Join(PodKeywordSearch(argv), "\n")
+
+}
+
 func PodKeywordSearch(words []string) (results []string) {
 	read := strings.NewReader(podIndex)
 	readscan := bufio.NewScanner(read)

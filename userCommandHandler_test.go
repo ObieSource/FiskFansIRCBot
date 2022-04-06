@@ -6,11 +6,17 @@ import (
 )
 
 var BasicTestCases map[string]string = map[string]string{
-	".ping":       "Pong!",
-	".ping hello": "Pong!",
-	".help":       HelpHandler([]string{}),
-	".help hello": HelpHandler([]string{}),
-	".yo":         UnknownCommand,
+	".ping":         "Pong!",
+	".ping hello":   "Pong!",
+	".help":         HelpHandler([]string{}),
+	".help hello":   HelpHandler([]string{}),
+	".yo":           UnknownCommand,
+	".pod":          PodIncorrectArgs,
+	".pod s":        PodIncorrectArgs,
+	".pod o":        PodIncorrectArgs,
+	".pod q":        PodIncorrectArgs,
+	".pod g 69":     PodNotOSQ("g"),
+	".pod hello 23": PodNotOSQ("hello"),
 }
 
 func TestUserCommandHandler(t *testing.T) {
