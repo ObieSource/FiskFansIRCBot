@@ -1,14 +1,35 @@
 package main
 
 import (
-	"bytes"
-	"fmt"
 	"strings"
 )
 
-func UserCommandHandler(text string) string {
-	buf := new(bytes.Buffer)
+const (
+	PREFIX         = "."
+	UnknownCommand = "Unknown command. Try .help"
+)
 
-	fmt.Fprintln(buf, text)
-	return strings.TrimSpace(buf.String())
+func UserCommandHandler(text string) string {
+
+	/*
+		Check for prefix
+	*/
+	if !strings.HasPrefix(text, PREFIX) {
+		return ""
+	}
+	text = text[len(PREFIX):] // ignore prefix
+
+	allargv := strings.Split(text, " ")
+
+	command := strings.ToLower(allargv[0])
+
+	argv := allargv[1:]
+
+	for _, c := range Commands {
+		if strings.ToLower(c.Command) == strings.ToLower(command) {
+			return c.Handler(argv)
+		}
+	}
+
+	return UnknownCommand
 }
