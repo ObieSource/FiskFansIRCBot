@@ -8,6 +8,8 @@ import (
 var BasicTestCases map[string]string = map[string]string{
 	".ping":       "Pong!",
 	".ping hello": "Pong!",
+	".help":       HelpHandler([]string{}),
+	".help hello": HelpHandler([]string{}),
 	".yo":         UnknownCommand,
 }
 
