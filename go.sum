@@ -1,2 +1,4 @@
 github.com/ergochat/irc-go v0.1.0 h1:jBHUayERH9SiPOWe4ePDWRztBjIQsU/jwLbbGUuiOWM=
 github.com/ergochat/irc-go v0.1.0/go.mod h1:2vi7KNpIPWnReB5hmLpl92eMywQvuIeIIGdt/FQCph0=
+github.com/gosimple/unidecode v1.0.1 h1:hZzFTMMqSswvf0LBJZCZgThIZrpDHFXux9KeGmn6T/o=
+github.com/gosimple/unidecode v1.0.1/go.mod h1:CP0Cr1Y1kogOtx0bJblKzsVWrqYaqfNOnHzpgWw4Awc=
