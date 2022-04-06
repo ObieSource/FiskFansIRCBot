@@ -34,7 +34,7 @@ func PodHandler(argv []string) string {
 		if err != nil {
 			return fmt.Sprintf("Returned error %+v", err)
 		}
-		href, err := podGetStoplistIndexFromOrganId(id)
+		href, err := PodGetStoplistIndexFromOrganId(id)
 		if err != nil {
 			return fmt.Sprintf("Returned error %+v", err)
 		}

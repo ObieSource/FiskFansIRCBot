@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strings"
 
@@ -14,15 +13,21 @@ import (
 
 var StoplistWrongNumberOfStoplistHref error = errors.New("Didn't recieve any href to stoplist, or recieved more than one.")
 
-func podGetStoplistIndexFromOrganId(organId int) (string, error) {
+var StoplistStrCache map[int]string = map[int]string{}
+
+func PodGetStoplistIndexFromOrganId(organId int) (string, error) {
+	h, ok := StoplistStrCache[organId]
+	if ok {
+		return h, nil
+	}
 	organUrl := PodGetOrganUrl(organId)
-	log.Println("request", organUrl)
+	// log.Println("request", organUrl)
 
 	resp, err := http.Get(organUrl)
 	if err != nil {
 		return "", err
 	}
-	log.Println("^ request done")
+	// log.Println("^ request done")
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
@@ -34,7 +39,7 @@ func podGetStoplistIndexFromOrganId(organId int) (string, error) {
 
 	var stoplistHref []string
 
-	log.Println("start tokenizer")
+	// log.Println("start tokenizer")
 
 	for {
 		tt := tkn.Next()
@@ -42,7 +47,7 @@ func podGetStoplistIndexFromOrganId(organId int) (string, error) {
 		switch tt {
 		case html.ErrorToken:
 			// done
-			log.Println("tokenizer done")
+			// log.Println("tokenizer done")
 			if len(stoplistHref) != 1 {
 				/*
 					Something went wrong
@@ -50,7 +55,9 @@ func podGetStoplistIndexFromOrganId(organId int) (string, error) {
 				return "", StoplistWrongNumberOfStoplistHref
 			}
 
-			return fmt.Sprintf("%s%s", PodHostname, stoplistHref[0]), nil
+			result := fmt.Sprintf("%s%s", PodHostname, stoplistHref[0])
+			StoplistStrCache[organId] = result
+			return result, nil
 
 		case html.StartTagToken:
 			token := tkn.Token()
