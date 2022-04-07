@@ -29,6 +29,15 @@ func main() {
 		RequestCaps: []string{},
 		RealName:    "https://github.com/ObieSource/FiskFansIRCBot",
 	}
+	saslUser := os.Getenv("IRCSUSER")
+	saslPasswd := os.Getenv("IRCSPASS")
+	if saslUser != "" && saslPasswd != "" {
+		irc.SASLLogin = saslUser
+		irc.SASLPassword = saslPasswd
+		irc.UseSASL = true
+	} else {
+		irc.UseSASL = false
+	}
 	irc.AddConnectCallback(func(e ircmsg.Message) {
 		// attempt to set the BOT mode on ourself:
 		if botMode := irc.ISupport()["BOT"]; botMode != "" {
