@@ -27,7 +27,7 @@ func main() {
 		UseTLS:      true,
 		TLSConfig:   &tls.Config{},
 		RequestCaps: []string{},
-		RealName:    "FiskFansIRCBot",
+		RealName:    "https://github.com/ObieSource/FiskFansIRCBot",
 	}
 	irc.AddConnectCallback(func(e ircmsg.Message) {
 		// attempt to set the BOT mode on ourself:
