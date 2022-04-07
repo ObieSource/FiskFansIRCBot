@@ -21,7 +21,8 @@ func OnPrivMsg(e ircmsg.Message) {
 			}
 		}
 		if len(eachLine) > PasteBinCutoff {
-			eachLine = []string{UploadToPastebin(strings.Join(eachLine, "\n"))}
+			// eachLine = []string{UploadToPastebin(strings.Join(eachLine, "\n"))}
+			eachLine = append(eachLine[:PasteBinCutoff-1], ". . . cut off to save space . . .")
 		}
 		for _, line := range eachLine {
 			if strings.TrimSpace(line) != "" {
