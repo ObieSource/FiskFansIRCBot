@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"strings"
 	"testing"
 )
@@ -23,6 +24,13 @@ var BasicTestCases map[string]string = map[string]string{
 	".fandom 23 45": FandomTooManyArgs,
 	".stop":         OrganStopNoArgs,
 	".stop jfkadsf": OrganStopNotFound,
+	".credits": func() string {
+		a, b := os.ReadFile("credits.txt")
+		if b != nil {
+			panic(b)
+		}
+		return string(a)
+	}(),
 }
 
 func TestUserCommandHandler(t *testing.T) {

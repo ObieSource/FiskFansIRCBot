@@ -1,0 +1,2 @@
+FiskFansIRCBot
+Developed by William Rehwinkel, william@williamrehwinkel.net
