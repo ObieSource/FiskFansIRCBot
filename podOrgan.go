@@ -81,7 +81,7 @@ func IgnoreSpaces(str string) string {
 	var output []string
 	for _, line := range s {
 		if strings.TrimSpace(line) != "" {
-			output = append(output, GetWrappedText(strings.TrimSpace(line)))
+			output = append(output, strings.TrimSpace(line))
 		}
 	}
 	return strings.Join(output, "\n")

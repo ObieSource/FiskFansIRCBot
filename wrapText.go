@@ -2,13 +2,11 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
-const TextMaxWidth = 256
+const TextMaxWidth = 192
 
-func GetWrappedText(text string) string {
-	var lines []string = []string{}
+func GetWrappedText(text string) (lines []string) {
 
 	for i, c := range text {
 		if len(lines) == 0 || i%TextMaxWidth == 0 {
@@ -19,5 +17,5 @@ func GetWrappedText(text string) string {
 		lines[x] = fmt.Sprintf("%s%c", old, c)
 	}
 
-	return strings.Join(lines, "\n")
+	return
 }

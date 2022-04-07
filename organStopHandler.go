@@ -48,7 +48,7 @@ func OrganStopHandler(argv []string) string {
 
 	for _, par := range strings.Split(text, "\n") {
 		if strings.TrimSpace(par) != "" {
-			fmt.Fprintln(buf, GetWrappedText(strings.TrimSpace(par)))
+			fmt.Fprintln(buf, strings.TrimSpace(par))
 		}
 	}
 

@@ -42,13 +42,9 @@ func FandomPage(id int) string {
 	paragraphsOut := new(bytes.Buffer)
 
 	paragraphsOutSpl := strings.Split(paragraphs, "\n")
-	r := 50
-	if len(paragraphsOutSpl) < r {
-		r = len(paragraphsOutSpl)
-	}
-	for _, par := range paragraphsOutSpl[:r] {
+	for _, par := range paragraphsOutSpl {
 		if strings.TrimSpace(par) != "" {
-			fmt.Fprintln(paragraphsOut, GetWrappedText(strings.TrimSpace(par)))
+			fmt.Fprintln(paragraphsOut, strings.TrimSpace(par))
 		}
 	}
 	fmt.Fprintln(paragraphsOut, url)
