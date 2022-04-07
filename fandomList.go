@@ -33,6 +33,8 @@ func GetFandomArticleList() (articles []FandomArticle, err error) {
 	*/
 	err = nil
 	tkn := html.NewTokenizer(resp.Body)
+	var href string
+	var title string
 	for {
 		tt := tkn.Next()
 		switch tt {
@@ -43,32 +45,21 @@ func GetFandomArticleList() (articles []FandomArticle, err error) {
 			if token.Data == "a" {
 				// check for href
 
-				var isWikiArticle bool = false
-				var href string
+				href = ""
+				title = ""
 				for _, attr := range token.Attr {
 					if attr.Key == "href" && strings.HasPrefix(attr.Val, "/wiki/") && !strings.HasPrefix(attr.Val, "/wiki/Special") {
-						isWikiArticle = true
 						href = attr.Val
-						break
+					} else if attr.Key == "title" {
+						title = attr.Val
 					}
 				}
-
-				if !isWikiArticle {
-					continue
+				if href != "" && title != "" {
+					articles = append(articles, FandomArticle{
+						title,
+						href,
+					})
 				}
-
-				for tkn.Token().Data != "span" {
-					tt = tkn.Next()
-				}
-				tt = tkn.Next()
-				token2 := tkn.Token()
-				text := token2.Data
-
-				articles = append(articles, FandomArticle{
-					text,
-					href,
-				})
-
 			}
 		}
 
