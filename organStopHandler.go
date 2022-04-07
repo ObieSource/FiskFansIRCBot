@@ -35,24 +35,30 @@ func OrganStopHandler(argv []string) string {
 	defer cancel()
 
 	// run task list
-	var text string
+	// var text string
+	type InnerText struct {
+		InnerText string
+	}
+	var paragraphsraw string
 	err := chromedp.Run(ctx,
 		chromedp.Navigate(url),
-		chromedp.Evaluate(`document.querySelector("body").innerText`, &text),
+		// chromedp.Evaluate(`document.querySelector("body").innerText`, &text),
+		chromedp.Evaluate(`s = ""; document.querySelectorAll("p").forEach(function(thi){s += thi.innerText + "\n"}); s`, &paragraphsraw),
 	)
 	if err != nil {
 		return fmt.Sprintf("headless chrome error %+v\n", err)
 	}
 
 	buf := new(bytes.Buffer)
+	fmt.Fprintln(buf, url)
 
-	for _, par := range strings.Split(text, "\n") {
+	for _, par := range strings.Split(paragraphsraw, "\n") {
 		if strings.TrimSpace(par) != "" {
 			fmt.Fprintln(buf, strings.TrimSpace(par))
 		}
 	}
 
-	return text
+	return buf.String()
 }
 
 var OrganStops map[string]string = map[string]string{}
