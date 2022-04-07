@@ -66,7 +66,7 @@ func GetStoplist(href string) (stoplist string, err error) {
 			*/
 			tkn.Next()
 			tokenNext := tkn.Token()
-			data := tokenNext.Data
+			data := fmt.Sprintf("%s\n%s", href, tokenNext.Data)
 			StoplistFromHrefCache[href] = data
 			return data, nil
 		}
@@ -95,8 +95,9 @@ func GetStoplistJS(href string) (string, error) {
 	if err != nil {
 		return "", nil
 	}
-	StoplistFromHrefCache[href] = parsed
-	return parsed, nil
+	final := fmt.Sprintf("%s\n%s", href, parsed)
+	StoplistFromHrefCache[href] = final
+	return final, nil
 }
 
 type StoplistStr struct {
