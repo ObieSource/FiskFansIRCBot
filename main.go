@@ -23,7 +23,7 @@ func main() {
 	irc = ircevent.Connection{
 		Server:      env("IRCSERVER"),
 		Nick:        env("IRCNICK"),
-		Debug:       true,
+		Debug:       false,
 		UseTLS:      true,
 		TLSConfig:   &tls.Config{},
 		RequestCaps: []string{},

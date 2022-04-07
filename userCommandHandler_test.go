@@ -21,6 +21,8 @@ var BasicTestCases map[string]string = map[string]string{
 	".fandom hello": FandomIntError,
 	".fandom 69420": FandomIntError,
 	".fandom 23 45": FandomTooManyArgs,
+	".stop":         OrganStopNoArgs,
+	".stop jfkadsf": OrganStopNotFound,
 }
 
 func TestUserCommandHandler(t *testing.T) {

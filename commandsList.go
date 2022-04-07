@@ -13,4 +13,5 @@ var Commands []Command = []Command{
 	}},
 	{"fandom", "<list/id#>", "Read articles from the Pipe organ Wiki", FandomHandler},
 	{"pod", "<o/s/q> <id/keyword>...", "Perform a pipe organ database keyword search", PodHandler},
+	{"stop", "<name>", "Pull information about an organ stop", OrganStopHandler},
 }
