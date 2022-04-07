@@ -1,2 +1,3 @@
 FiskFansIRCBot
+https://github.com/ObieSource/FiskFansIRCBot
 Developed by William Rehwinkel, william@williamrehwinkel.net
