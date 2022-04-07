@@ -31,8 +31,8 @@ func PodOrganHandler(id int) string {
 	// run task list
 	var title string
 	var location string
-	var divisions string
-	var consoles string
+	//var divisions string
+	//var consoles string
 	var notes string
 
 	err := chromedp.Run(ctx,
@@ -40,11 +40,13 @@ func PodOrganHandler(id int) string {
 		chromedp.Evaluate(`document.querySelector("h3.organ-title").innerText`, &title),
 		chromedp.Evaluate(`document.querySelector("p.card-text").innerText`, &location),
 		// chromedp.Evaluate(`document.querySelector("#accordion-divisions").textContent`, &divisions),
-		chromedp.Evaluate(`document.querySelector("#accordion-divisions> div > div.collapse.item-1").className = "collapse.item-1.show"`, nil),
-		chromedp.Evaluate(`document.querySelector("#accordion-divisions> div > div.collapse\\.item-1\\.show").innerText`, &divisions),
-		// chromedp.Evaluate(`document.querySelector("#accordion-consoles").textContent`, &consoles),
-		chromedp.Evaluate(`document.querySelector("#accordion-consoles > div > div.collapse.item-1").className = "collapse.item-1.show"`, nil),
-		chromedp.Evaluate(`document.querySelector("#accordion-consoles > div > div.collapse\\.item-1\\.show").innerText`, &consoles),
+		/*
+			chromedp.Evaluate(`document.querySelector("#accordion-divisions> div > div.collapse.item-1").className = "collapse.item-1.show"`, nil),
+			chromedp.Evaluate(`document.querySelector("#accordion-divisions> div > div.collapse\\.item-1\\.show").innerText`, &divisions),
+			// chromedp.Evaluate(`document.querySelector("#accordion-consoles").textContent`, &consoles),
+			chromedp.Evaluate(`document.querySelector("#accordion-consoles > div > div.collapse.item-1").className = "collapse.item-1.show"`, nil),
+			chromedp.Evaluate(`document.querySelector("#accordion-consoles > div > div.collapse\\.item-1\\.show").innerText`, &consoles),
+		*/
 		// chromedp.Evaluate(`document.querySelector("#accordion-notes").textContent`, &notes),
 		chromedp.Evaluate(`document.querySelector("#accordion-notes> div > div.collapse.item-1").className = "collapse.item-1.show"`, nil),
 		chromedp.Evaluate(`document.querySelector("#accordion-notes> div > div.collapse\\.item-1\\.show").innerText`, &notes),
@@ -58,8 +60,8 @@ func PodOrganHandler(id int) string {
 	var allBits []string = []string{
 		title,
 		location,
-		divisions,
-		consoles,
+		//divisions,
+		//consoles,
 		notes,
 	}
 
