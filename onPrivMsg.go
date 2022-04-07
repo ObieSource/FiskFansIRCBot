@@ -13,7 +13,11 @@ func OnPrivMsg(e ircmsg.Message) {
 	text := e.Params[1]
 	go func() {
 		output := UserCommandHandler(text)
-		for _, line := range strings.Split(output, "\n") {
+		eachLine := strings.Split(output, "\n")
+		if len(eachLine) > PasteBinCutoff {
+			eachLine = []string{UploadToPastebin(output)}
+		}
+		for _, line := range eachLine {
 			if strings.TrimSpace(line) != "" {
 				irc.Privmsg(e.Params[0], ircutils.SanitizeText(line, 384))
 			}
