@@ -26,3 +26,6 @@ IRCSERVER="hostname:port" \
 
 ```
 Note that sasl login is not required. If not set, FiskFansBot will connect without authenticating. The environmental variable IRCTLS is not required either. If not specified, defaults to true.
+
+# Chat
+[`irc.ergo.chat#ffircbot`](https://ergo.chat/kiwi/#ffircbot)
