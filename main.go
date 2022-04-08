@@ -2,11 +2,13 @@ package main
 
 import (
 	"crypto/tls"
-	"github.com/ergochat/irc-go/ircevent"
-	"github.com/ergochat/irc-go/ircmsg"
+	"flag"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ergochat/irc-go/ircevent"
+	"github.com/ergochat/irc-go/ircmsg"
 )
 
 func env(e string) string {
@@ -20,11 +22,23 @@ func env(e string) string {
 var irc ircevent.Connection
 
 func main() {
+	debug := new(bool)
+	flag.BoolVar(debug, "d", false, "Print logs of server connections to stdout")
+	flag.Parse()
+
+	BotUseTls, err := UseTls(os.Getenv("IRCTLS"))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	/*
+		Define the bot
+	*/
 	irc = ircevent.Connection{
 		Server:      env("IRCSERVER"),
 		Nick:        env("IRCNICK"),
-		Debug:       false,
-		UseTLS:      true,
+		Debug:       *debug,
+		UseTLS:      BotUseTls,
 		TLSConfig:   &tls.Config{},
 		RequestCaps: []string{},
 		RealName:    "https://github.com/ObieSource/FiskFansIRCBot",
@@ -50,7 +64,7 @@ func main() {
 	})
 
 	irc.AddCallback("PRIVMSG", OnPrivMsg)
-	err := irc.Connect()
+	err = irc.Connect()
 	if err != nil {
 		log.Fatal(err)
 	}
